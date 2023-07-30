@@ -28,6 +28,20 @@
 
 
 --What are the top ten communities that had the most crimes reported? We will also add the current population to see if area density is also a factor.
+
+--select * from crimes
+--select * from [dbo].[areas]
+--select * from [dbo].[temps]
+
+--select top 10 count(crimes.crime_date) as "count" , areas.name 
+--from crimes join areas 
+--on crimes.community_id = areas.community_area_id 
+--group by areas.name
+--order by count desc
+
+
+
+
 --What are the top ten communities that had the least amount of crimes reported? We will also add the current population to see if area density is also a factor.
 --What month had the most crimes reported?
 --What month had the most homicides and what was the average and median temperature?
