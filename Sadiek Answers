@@ -134,40 +134,20 @@ group by temps.date ,temps.temp_low
 order by temps.temp_low asc ) 
 
 select * 
-from ctehigh as h
+from ctehigh 
 union select 
-* from ctelow as l
+* from ctelow 
 
 
 
 
 
 
-select * from ctelow
 
 
 
 
-WITH hottest AS (
-	SELECT
-	  	temp_high,
-	 	count(*) AS n_crimes
-	FROM
-	 	chicago_crimes
-	WHERE
-	 	temp_high = (SELECT max(temp_high) FROM chicago_crimes)
-	GROUP BY temp_high
-),
-coldest AS (
-	SELECT
-	  	temp_high,
-	 	count(*) AS n_crimes
-	FROM
-	 	chicago_crimes
-	WHERE
-	 	temp_high = (SELECT min(temp_high) FROM chicago_crimes)
-	GROUP BY temp_high
-)
+
 
 --What is the number and types of reported crimes on Michigan Ave (The Rodeo Drive of the Midwest)?
 --What are the top 5 least reported crime, how many arrests were made and the percentage of arrests made?
