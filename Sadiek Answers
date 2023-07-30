@@ -65,11 +65,11 @@
 
 --What month had the most homicides and what was the average and median temperature?
 
-select crimes.crime_type , count(crimes.crime_type) as "count" , sum(temps.[temp_high]+ temps.[temp_low])/2 as "temp" ,month(crimes.crime_date) as"month"
-from crimes join temps 
-on crimes.crime_date = temps.date
-where crimes.crime_type like  '%hom%'
-group by crimes.crime_type ,month(crimes.crime_date)
+--select crimes.crime_type , count(crimes.crime_type) as "count" , sum(temps.[temp_high]+ temps.[temp_low])/2 as "temp" ,month(crimes.crime_date) as"month"
+--from crimes join temps 
+--on crimes.crime_date = temps.date
+--where crimes.crime_type like  '%hom%'
+--group by crimes.crime_type ,month(crimes.crime_date)
 
 
 
@@ -78,8 +78,31 @@ group by crimes.crime_type ,month(crimes.crime_date)
 
 
 --What weekday were most crimes committed?
+
+--select datename(WEEKDAY, [crime_date]) as "day" , count(crime_type) as "count" 
+--from crimes 
+--group by datename(WEEKDAY, [crime_date])
+
+
+
+
 --What are the top ten city streets that have had the most reported crimes?
+
+
+
+--select top 10 city_block , count(crime_type) as "count" 
+--from crimes 
+--group by city_block
+--order by count desc
+
+
+
+
+
 --What are the top ten city streets that have had the most homicides including ties?
+
+
+
 --What are the top ten city streets that have had the most burglaries?
 --What was the number of reported crimes on the hottest day of the year vs the coldest?
 --What is the number and types of reported crimes on Michigan Ave (The Rodeo Drive of the Midwest)?
