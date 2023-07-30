@@ -102,14 +102,14 @@
 
 --What are the top ten city streets that have had the most burglaries?
 
-select * from crimes 
 
 
-select top 10 count(crime_type) as "count" , city_block 
-from crimes j
-where crime_type =  'burglary'
-group by city_block   
-order by "count" desc
+
+--select top 10 count(crime_type) as "count" , city_block 
+--from crimes j
+--where crime_type =  'burglary'
+--group by city_block   
+--order by "count" desc
 
 
 
@@ -117,6 +117,58 @@ order by "count" desc
 
 
 --What was the number of reported crimes on the hottest day of the year vs the coldest?
+
+
+with ctehigh as ( select top 1 temps.date , temps.temp_high as "highest",count(crimes.crime_type) as "count" 
+from temps join crimes 
+on temps.date  = crimes.crime_date 
+group by temps.date ,temps.temp_high
+order by temp_high desc )  ,
+
+
+
+  ctelow as ( select top 1 temps.date , temps.temp_low as "lowest" ,count(crimes.crime_type) as "count" 
+from temps join crimes 
+on temps.date  = crimes.crime_date 
+group by temps.date ,temps.temp_low
+order by temps.temp_low asc ) 
+
+select * 
+from ctehigh as h
+union select 
+* from ctelow as l
+
+
+
+
+
+
+select * from ctelow
+
+
+
+
+WITH hottest AS (
+	SELECT
+	  	temp_high,
+	 	count(*) AS n_crimes
+	FROM
+	 	chicago_crimes
+	WHERE
+	 	temp_high = (SELECT max(temp_high) FROM chicago_crimes)
+	GROUP BY temp_high
+),
+coldest AS (
+	SELECT
+	  	temp_high,
+	 	count(*) AS n_crimes
+	FROM
+	 	chicago_crimes
+	WHERE
+	 	temp_high = (SELECT min(temp_high) FROM chicago_crimes)
+	GROUP BY temp_high
+)
+
 --What is the number and types of reported crimes on Michigan Ave (The Rodeo Drive of the Midwest)?
 --What are the top 5 least reported crime, how many arrests were made and the percentage of arrests made?
 --What is the percentage of domestic violence crimes?
