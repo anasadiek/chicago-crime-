@@ -99,11 +99,23 @@
 
 
 
---What are the top ten city streets that have had the most homicides including ties?
-
-
 
 --What are the top ten city streets that have had the most burglaries?
+
+select * from crimes 
+
+
+select top 10 count(crime_type) as "count" , city_block 
+from crimes j
+where crime_type =  'burglary'
+group by city_block   
+order by "count" desc
+
+
+
+
+
+
 --What was the number of reported crimes on the hottest day of the year vs the coldest?
 --What is the number and types of reported crimes on Michigan Ave (The Rodeo Drive of the Midwest)?
 --What are the top 5 least reported crime, how many arrests were made and the percentage of arrests made?
