@@ -119,7 +119,7 @@
 --What was the number of reported crimes on the hottest day of the year vs the coldest?
 
 
-with ctehigh as ( select top 1 temps.date , temps.temp_high as "highest",count(crimes.crime_type) as "count" 
+with ctehigh as ( select top 1 temps.date , temps.temp_high as "temp",count(crimes.crime_type) as "count" 
 from temps join crimes 
 on temps.date  = crimes.crime_date 
 group by temps.date ,temps.temp_high
@@ -127,7 +127,7 @@ order by temp_high desc )  ,
 
 
 
-  ctelow as ( select top 1 temps.date , temps.temp_low as "lowest" ,count(crimes.crime_type) as "count" 
+  ctelow as ( select top 1 temps.date , temps.temp_low as "temp" ,count(crimes.crime_type) as "count" 
 from temps join crimes 
 on temps.date  = crimes.crime_date 
 group by temps.date ,temps.temp_low
