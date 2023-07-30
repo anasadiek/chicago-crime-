@@ -116,27 +116,27 @@
 
 
 
---What was the number of reported crimes on the hottest day of the year vs the coldest?
+----What was the number of reported crimes on the hottest day of the year vs the coldest?
 
 
-with ctehigh as ( select top 1 temps.date , temps.temp_high as "temp",count(crimes.crime_type) as "count" 
-from temps join crimes 
-on temps.date  = crimes.crime_date 
-group by temps.date ,temps.temp_high
-order by temp_high desc )  ,
+--with ctehigh as ( select top 1 temps.date , temps.temp_high as "temp",count(crimes.crime_type) as "count" 
+--from temps join crimes 
+--on temps.date  = crimes.crime_date 
+--group by temps.date ,temps.temp_high
+--order by temp_high desc )  ,
 
 
 
-  ctelow as ( select top 1 temps.date , temps.temp_low as "temp" ,count(crimes.crime_type) as "count" 
-from temps join crimes 
-on temps.date  = crimes.crime_date 
-group by temps.date ,temps.temp_low
-order by temps.temp_low asc ) 
+--  ctelow as ( select top 1 temps.date , temps.temp_low as "temp" ,count(crimes.crime_type) as "count" 
+--from temps join crimes 
+--on temps.date  = crimes.crime_date 
+--group by temps.date ,temps.temp_low
+--order by temps.temp_low asc ) 
 
-select * 
-from ctehigh 
-union select 
-* from ctelow 
+--select * 
+--from ctehigh 
+--union select 
+--* from ctelow 
 
 
 
@@ -150,6 +150,22 @@ union select
 
 
 --What is the number and types of reported crimes on Michigan Ave (The Rodeo Drive of the Midwest)?
+
+select count(crimes.crime_type) as "count" ,crimes.crime_type 
+from crimes join areas 
+on crimes.community_id =areas.community_area_id
+where city_block like '%Michigan Ave%'
+group by crimes.crime_type 
+order by count desc
+
+
+
+
+
+
+select name from areas group by name 
+order by name 
+
 --What are the top 5 least reported crime, how many arrests were made and the percentage of arrests made?
 --What is the percentage of domestic violence crimes?
 --Display how many crimes were reported on a monthly basis in chronological order. What is the month to month percentage change of crimes reported?
