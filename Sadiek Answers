@@ -51,19 +51,32 @@
 --order by count asc
 
 
---What month had the most crimes reported?
+----What month had the most crimes reported?
 
-select * from crimes 
+--select * from crimes 
 
-select datename(month, crime_date) as "month",month(crime_date) as "month#" , count(crime_date) as "count" 
-from crimes 
-group by datename(month, crime_date),month(crime_date)
-order by month 
+--select datename(month, crime_date) as "month",month(crime_date) as "month#" , count(crime_date) as "count" 
+--from crimes 
+--group by datename(month, crime_date),month(crime_date)
+--order by month 
 
 
 
 
 --What month had the most homicides and what was the average and median temperature?
+
+select crimes.crime_type , count(crimes.crime_type) as "count" , sum(temps.[temp_high]+ temps.[temp_low])/2 as "temp" ,month(crimes.crime_date) as"month"
+from crimes join temps 
+on crimes.crime_date = temps.date
+where crimes.crime_type like  '%hom%'
+group by crimes.crime_type ,month(crimes.crime_date)
+
+
+
+
+
+
+
 --What weekday were most crimes committed?
 --What are the top ten city streets that have had the most reported crimes?
 --What are the top ten city streets that have had the most homicides including ties?
