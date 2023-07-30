@@ -1,0 +1,27 @@
+use chicago 
+How many total crimes were reported in 2021?
+
+select year(crime_date) as "year" , count(crime_date) As "count" 
+from crimes
+group by year(crime_date)
+
+
+--How many total crimes were reported in 2021?
+--What is the count of Homicides, Battery and Assaults reported?
+--Create a temp table that joins data from all three tables
+--What are the top ten communities that had the most crimes reported? We will also add the current population to see if area density is also a factor.
+--What are the top ten communities that had the least amount of crimes reported? We will also add the current population to see if area density is also a factor.
+--What month had the most crimes reported?
+--What month had the most homicides and what was the average and median temperature?
+--What weekday were most crimes committed?
+--What are the top ten city streets that have had the most reported crimes?
+--What are the top ten city streets that have had the most homicides including ties?
+--What are the top ten city streets that have had the most burglaries?
+--What was the number of reported crimes on the hottest day of the year vs the coldest?
+--What is the number and types of reported crimes on Michigan Ave (The Rodeo Drive of the Midwest)?
+--What are the top 5 least reported crime, how many arrests were made and the percentage of arrests made?
+--What is the percentage of domestic violence crimes?
+--Display how many crimes were reported on a monthly basis in chronological order. What is the month to month percentage change of crimes reported?
+--Display the most consecutive days where a homicide occured and the timeframe.
+--What are the top 10 most common locations for reported crimes and their frequency depending on the season?
+--What is the Month, day of the week and the number of homicides that occured in a babershop or beauty salon?
