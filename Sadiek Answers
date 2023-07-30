@@ -43,7 +43,26 @@
 
 
 --What are the top ten communities that had the least amount of crimes reported? We will also add the current population to see if area density is also a factor.
+
+--select top 10 count(crimes.crime_date) as "count" , areas.name 
+--from crimes join areas 
+--on crimes.community_id = areas.community_area_id 
+--group by areas.name
+--order by count asc
+
+
 --What month had the most crimes reported?
+
+select * from crimes 
+
+select datename(month, crime_date) as "month",month(crime_date) as "month#" , count(crime_date) as "count" 
+from crimes 
+group by datename(month, crime_date),month(crime_date)
+order by month 
+
+
+
+
 --What month had the most homicides and what was the average and median temperature?
 --What weekday were most crimes committed?
 --What are the top ten city streets that have had the most reported crimes?
