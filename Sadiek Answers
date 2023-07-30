@@ -1,14 +1,32 @@
-use chicago 
-How many total crimes were reported in 2021?
-
-select year(crime_date) as "year" , count(crime_date) As "count" 
-from crimes
-group by year(crime_date)
-
-
+--use chicago 
 --How many total crimes were reported in 2021?
---What is the count of Homicides, Battery and Assaults reported?
---Create a temp table that joins data from all three tables
+
+--select year(crime_date) as "year" , count(crime_date) As "count" 
+--from crimes
+--group by year(crime_date)
+
+
+----What is the count of Homicides, Battery and Assaults reported?
+
+
+----select count(crime_date) as "count" , crime_type 
+----from crimes 
+----where crime_type = 'homicide' or crime_type = 'battery' or crime_type = 'assault'
+----group by crime_type
+
+
+----Create a temp table that joins data from all three tables
+
+--select * from crimes
+--select * from [dbo].[areas]
+--select * from [dbo].[temps]
+
+--select * from crimes join areas 
+--on crimes.community_id = areas.community_area_id
+--join temps on crimes.crime_date = temps.date
+
+
+
 --What are the top ten communities that had the most crimes reported? We will also add the current population to see if area density is also a factor.
 --What are the top ten communities that had the least amount of crimes reported? We will also add the current population to see if area density is also a factor.
 --What month had the most crimes reported?
