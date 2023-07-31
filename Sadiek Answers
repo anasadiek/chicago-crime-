@@ -1,4 +1,4 @@
---use chicago 
+use chicago 
 --How many total crimes were reported in 2021?
 
 --select year(crime_date) as "year" , count(crime_date) As "count" 
@@ -151,22 +151,37 @@
 
 --What is the number and types of reported crimes on Michigan Ave (The Rodeo Drive of the Midwest)?
 
-select count(crimes.crime_type) as "count" ,crimes.crime_type 
-from crimes join areas 
-on crimes.community_id =areas.community_area_id
-where city_block like '%Michigan Ave%'
-group by crimes.crime_type 
-order by count desc
+--select count(crimes.crime_type) as "count" ,crimes.crime_type 
+--from crimes join areas 
+--on crimes.community_id =areas.community_area_id
+--where city_block like '%Michigan Ave%'
+--group by crimes.crime_type 
+--order by count desc
 
 
 
 
 
 
-select name from areas group by name 
-order by name 
+--select name from areas group by name 
+--order by name 
 
 --What are the top 5 least reported crime, how many arrests were made and the percentage of arrests made?
+
+
+--select * from crimes 
+
+alter table crimes 
+alter column arrest float;
+
+select top 5 crime_type , count(crime_type) as "count" ,sum(arrest) as "arrests" ,   sum(arrest)/count(crime_type)   as "percentage"   
+from crimes 
+group by crime_type 
+order by count asc
+
+
+
+
 --What is the percentage of domestic violence crimes?
 --Display how many crimes were reported on a monthly basis in chronological order. What is the month to month percentage change of crimes reported?
 --Display the most consecutive days where a homicide occured and the timeframe.
