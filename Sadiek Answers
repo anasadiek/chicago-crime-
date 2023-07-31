@@ -197,31 +197,35 @@ use chicago
 
 --Display how many crimes were reported on a monthly basis in chronological order. What is the month to month percentage change of crimes reported?
 
-select count(crime_type) as "count" , datename(month,[crime_date]) as "month",month([crime_date]) as "month#"  
-, count(crime_type)-coalesce(lag(count(crime_type)) over(order by month([crime_date])),1) as"diff" 
-, count(crime_type)/coalesce(lag(count(crime_type)) over(order by month([crime_date])),1)   as"%" 
-from crimes 
-group by datename(month,[crime_date]),month([crime_date])
-order by month([crime_date])
-
-
-
-
-
-
-
-
-
-
-
---select * from areas 
-
---select population , population-coalesce( lag (population) over (order by name),0)
--- from areas 
-
+--select count(crime_type) as "count" , datename(month,[crime_date]) as "month",month([crime_date]) as "month#"  
+--, count(crime_type)-coalesce(lag(count(crime_type)) over(order by month([crime_date])),1) as"diff" 
+--, count(crime_type)/coalesce(lag(count(crime_type)) over(order by month([crime_date])),1)   as"%" 
+--from crimes 
+--group by datename(month,[crime_date]),month([crime_date])
+--order by month([crime_date])
 
 --Display the most consecutive days where a homicide occured and the timeframe.
+
+--select crime_date , crime_date -coalesce( lag(crime_date) over (order by crime_date),0) as"diff"
+--from crimes 
+
+
+
 --What are the top 10 most common locations for reported crimes and their frequency depending on the season?
+
+
+
+with cte as ( select crime_date , crime_location 
+, case when [crime_date] between '2021-01-01' and '2021-04-01'  then '1' else null end as "winter"
+,case when [crime_date] between '2021-04-02' and '2021-12-31'  then '1' else null end as "summer"
+from crimes ) 
+select top 10 cte.crime_location ,count(cte.winter) as "winter" ,count(cte.summer) "summer" 
+,(count(cte.winter) +count(cte.summer)) as"total"
+from cte
+group by cte.crime_location 
+order by "total" desc
+
+
 --What is the Month, day of the week and the number of homicides that occured in a babershop or beauty salon?
 
 
