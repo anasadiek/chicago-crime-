@@ -215,17 +215,24 @@ use chicago
 
 
 
-with cte as ( select crime_date , crime_location 
-, case when [crime_date] between '2021-01-01' and '2021-04-01'  then '1' else null end as "winter"
-,case when [crime_date] between '2021-04-02' and '2021-12-31'  then '1' else null end as "summer"
-from crimes ) 
-select top 10 cte.crime_location ,count(cte.winter) as "winter" ,count(cte.summer) "summer" 
-,(count(cte.winter) +count(cte.summer)) as"total"
-from cte
-group by cte.crime_location 
-order by "total" desc
+--with cte as ( select crime_date , crime_location 
+--, case when [crime_date] between '2021-01-01' and '2021-04-01'  then '1' else null end as "winter"
+--,case when [crime_date] between '2021-04-02' and '2021-12-31'  then '1' else null end as "summer"
+--from crimes ) 
+--select top 10 cte.crime_location ,count(cte.winter) as "winter" ,count(cte.summer) "summer" 
+--,(count(cte.winter) +count(cte.summer)) as"total"
+--from cte
+--group by cte.crime_location 
+--order by "total" desc
 
 
 --What is the Month, day of the week and the number of homicides that occured in a babershop or beauty salon?
 
 
+--select datename(month,crime_date) as"month" , datename(weekday,crime_date) as "dayweel",count(crime_type) as"count", month(crime_date) as "month#"
+--from crimes 
+--where crime_type ='homicide'
+--and crime_location like '%salon%'
+--or crime_location like '%barber%'
+--group by datename(month,crime_date) ,datename(weekday,crime_date),month(crime_date)
+--order by  month(crime_date) asc
