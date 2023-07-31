@@ -189,11 +189,37 @@ use chicago
 
 
 
-select sum(domestic) "domestic" , count(domestic) "total" , sum(domestic)/count(domestic) as "percentage"
-from crimes 
+--select sum(domestic) "domestic" , count(domestic) "total" , sum(domestic)/count(domestic) as "percentage"
+--from crimes 
+
+
 
 
 --Display how many crimes were reported on a monthly basis in chronological order. What is the month to month percentage change of crimes reported?
+
+select count(crime_type) as "count" , datename(month,[crime_date]) as "month",month([crime_date]) as "month#"  
+, count(crime_type)-coalesce(lag(count(crime_type)) over(order by month([crime_date])),1) as"diff" 
+, count(crime_type)/coalesce(lag(count(crime_type)) over(order by month([crime_date])),1)   as"%" 
+from crimes 
+group by datename(month,[crime_date]),month([crime_date])
+order by month([crime_date])
+
+
+
+
+
+
+
+
+
+
+
+--select * from areas 
+
+--select population , population-coalesce( lag (population) over (order by name),0)
+-- from areas 
+
+
 --Display the most consecutive days where a homicide occured and the timeframe.
 --What are the top 10 most common locations for reported crimes and their frequency depending on the season?
 --What is the Month, day of the week and the number of homicides that occured in a babershop or beauty salon?
