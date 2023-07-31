@@ -171,19 +171,31 @@ use chicago
 
 --select * from crimes 
 
-alter table crimes 
-alter column arrest float;
+--alter table crimes 
+--alter column arrest float;
 
-select top 5 crime_type , count(crime_type) as "count" ,sum(arrest) as "arrests" ,   sum(arrest)/count(crime_type)   as "percentage"   
-from crimes 
-group by crime_type 
-order by count asc
+--select top 5 crime_type , count(crime_type) as "count" ,sum(arrest) as "arrests" ,   sum(arrest)/count(crime_type)   as "percentage"   
+--from crimes 
+--group by crime_type 
+--order by count asc
 
 
 
 
 --What is the percentage of domestic violence crimes?
+
+--select * from crimes 
+
+
+
+
+select sum(domestic) "domestic" , count(domestic) "total" , sum(domestic)/count(domestic) as "percentage"
+from crimes 
+
+
 --Display how many crimes were reported on a monthly basis in chronological order. What is the month to month percentage change of crimes reported?
 --Display the most consecutive days where a homicide occured and the timeframe.
 --What are the top 10 most common locations for reported crimes and their frequency depending on the season?
 --What is the Month, day of the week and the number of homicides that occured in a babershop or beauty salon?
+
+
