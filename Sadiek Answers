@@ -1,8 +1,238 @@
-with old as ( select    max( '2023' - birth_year ) as "oldest age"  from aliens  ) 
+use chicago 
+--How many total crimes were reported in 2021?
 
-, young as  ( select   min( '2023' - birth_year ) as "youngest age"  from aliens  ) 
+--select year(crime_date) as "year" , count(crime_date) As "count" 
+--from crimes
+--group by year(crime_date)
 
- select * from young ,  old 
 
-select *, ( '2023' - birth_year ) as "age"  from aliens 
+----What is the count of Homicides, Battery and Assaults reported?
 
+
+----select count(crime_date) as "count" , crime_type 
+----from crimes 
+----where crime_type = 'homicide' or crime_type = 'battery' or crime_type = 'assault'
+----group by crime_type
+
+
+----Create a temp table that joins data from all three tables
+
+--select * from crimes
+--select * from [dbo].[areas]
+--select * from [dbo].[temps]
+
+--select * from crimes join areas 
+--on crimes.community_id = areas.community_area_id
+--join temps on crimes.crime_date = temps.date
+
+
+
+--What are the top ten communities that had the most crimes reported? We will also add the current population to see if area density is also a factor.
+
+--select * from crimes
+--select * from [dbo].[areas]
+--select * from [dbo].[temps]
+
+--select top 10 count(crimes.crime_date) as "count" , areas.name 
+--from crimes join areas 
+--on crimes.community_id = areas.community_area_id 
+--group by areas.name
+--order by count desc
+
+
+
+
+--What are the top ten communities that had the least amount of crimes reported? We will also add the current population to see if area density is also a factor.
+
+--select top 10 count(crimes.crime_date) as "count" , areas.name 
+--from crimes join areas 
+--on crimes.community_id = areas.community_area_id 
+--group by areas.name
+--order by count asc
+
+
+----What month had the most crimes reported?
+
+--select * from crimes 
+
+--select datename(month, crime_date) as "month",month(crime_date) as "month#" , count(crime_date) as "count" 
+--from crimes 
+--group by datename(month, crime_date),month(crime_date)
+--order by month 
+
+
+
+
+--What month had the most homicides and what was the average and median temperature?
+
+--select crimes.crime_type , count(crimes.crime_type) as "count" , sum(temps.[temp_high]+ temps.[temp_low])/2 as "temp" ,month(crimes.crime_date) as"month"
+--from crimes join temps 
+--on crimes.crime_date = temps.date
+--where crimes.crime_type like  '%hom%'
+--group by crimes.crime_type ,month(crimes.crime_date)
+
+
+
+
+
+
+
+--What weekday were most crimes committed?
+
+--select datename(WEEKDAY, [crime_date]) as "day" , count(crime_type) as "count" 
+--from crimes 
+--group by datename(WEEKDAY, [crime_date])
+
+
+
+
+--What are the top ten city streets that have had the most reported crimes?
+
+
+
+--select top 10 city_block , count(crime_type) as "count" 
+--from crimes 
+--group by city_block
+--order by count desc
+
+
+
+
+
+
+--What are the top ten city streets that have had the most burglaries?
+
+
+
+
+--select top 10 count(crime_type) as "count" , city_block 
+--from crimes j
+--where crime_type =  'burglary'
+--group by city_block   
+--order by "count" desc
+
+
+
+
+
+
+----What was the number of reported crimes on the hottest day of the year vs the coldest?
+
+
+--with ctehigh as ( select top 1 temps.date , temps.temp_high as "temp",count(crimes.crime_type) as "count" 
+--from temps join crimes 
+--on temps.date  = crimes.crime_date 
+--group by temps.date ,temps.temp_high
+--order by temp_high desc )  ,
+
+
+
+--  ctelow as ( select top 1 temps.date , temps.temp_low as "temp" ,count(crimes.crime_type) as "count" 
+--from temps join crimes 
+--on temps.date  = crimes.crime_date 
+--group by temps.date ,temps.temp_low
+--order by temps.temp_low asc ) 
+
+--select * 
+--from ctehigh 
+--union select 
+--* from ctelow 
+
+
+
+
+
+
+
+
+
+
+
+
+--What is the number and types of reported crimes on Michigan Ave (The Rodeo Drive of the Midwest)?
+
+--select count(crimes.crime_type) as "count" ,crimes.crime_type 
+--from crimes join areas 
+--on crimes.community_id =areas.community_area_id
+--where city_block like '%Michigan Ave%'
+--group by crimes.crime_type 
+--order by count desc
+
+
+
+
+
+
+--select name from areas group by name 
+--order by name 
+
+--What are the top 5 least reported crime, how many arrests were made and the percentage of arrests made?
+
+
+--select * from crimes 
+
+--alter table crimes 
+--alter column arrest float;
+
+--select top 5 crime_type , count(crime_type) as "count" ,sum(arrest) as "arrests" ,   sum(arrest)/count(crime_type)   as "percentage"   
+--from crimes 
+--group by crime_type 
+--order by count asc
+
+
+
+
+--What is the percentage of domestic violence crimes?
+
+--select * from crimes 
+
+
+
+
+--select sum(domestic) "domestic" , count(domestic) "total" , sum(domestic)/count(domestic) as "percentage"
+--from crimes 
+
+
+
+
+--Display how many crimes were reported on a monthly basis in chronological order. What is the month to month percentage change of crimes reported?
+
+--select count(crime_type) as "count" , datename(month,[crime_date]) as "month",month([crime_date]) as "month#"  
+--, count(crime_type)-coalesce(lag(count(crime_type)) over(order by month([crime_date])),1) as"diff" 
+--, count(crime_type)/coalesce(lag(count(crime_type)) over(order by month([crime_date])),1)   as"%" 
+--from crimes 
+--group by datename(month,[crime_date]),month([crime_date])
+--order by month([crime_date])
+
+--Display the most consecutive days where a homicide occured and the timeframe.
+
+--select crime_date , crime_date -coalesce( lag(crime_date) over (order by crime_date),0) as"diff"
+--from crimes 
+
+
+
+--What are the top 10 most common locations for reported crimes and their frequency depending on the season?
+
+
+
+--with cte as ( select crime_date , crime_location 
+--, case when [crime_date] between '2021-01-01' and '2021-04-01'  then '1' else null end as "winter"
+--,case when [crime_date] between '2021-04-02' and '2021-12-31'  then '1' else null end as "summer"
+--from crimes ) 
+--select top 10 cte.crime_location ,count(cte.winter) as "winter" ,count(cte.summer) "summer" 
+--,(count(cte.winter) +count(cte.summer)) as"total"
+--from cte
+--group by cte.crime_location 
+--order by "total" desc
+
+
+--What is the Month, day of the week and the number of homicides that occured in a babershop or beauty salon?
+
+
+--select datename(month,crime_date) as"month" , datename(weekday,crime_date) as "dayweel",count(crime_type) as"count", month(crime_date) as "month#"
+--from crimes 
+--where crime_type ='homicide'
+--and crime_location like '%salon%'
+--or crime_location like '%barber%'
+--group by datename(month,crime_date) ,datename(weekday,crime_date),month(crime_date)
+--order by  month(crime_date) asc
